@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Serch Results</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'algo_app/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+
+    <form action="/" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Home">
+    </form>
+    <br/>
+    <hr/>
+
+    <h2>Search Results</h2>
+
+    {% if algorithms %}
+
+
+
+    <table>
+      <!-- <thead>
+        <th>Name</th>
+      </thead> -->
+      <tbody>
+        {% for algorithm in algorithms %}
+          <tr>
+            <td>
+
+              <form action="/algorithm/{{algorithm.id}}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="{{algorithm.name}}">
+              </form>
+
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% else %}
+
+      No algorithms match the search criteria.
+
+    {% endif %}
+
+  </body>
+</html>

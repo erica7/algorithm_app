@@ -1,0 +1,12 @@
+Algorithm App
+
+
+To Do
+  + add more than one solution
+  + make random functional
+  + make search functional
+  + fix display of solution
+  + no public registration; administrator login to create/edit/delete
+  - fix routes: POST->redirect, not-POST->render
+  - styling
+  - deploy

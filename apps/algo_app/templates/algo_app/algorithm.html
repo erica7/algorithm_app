@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Algorithm</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'algo_app/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+
+    <form action="/" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Home">
+    </form>
+    <br/>
+    <hr/>
+
+    {% if request.session.admin_mode %}
+      Admin only:
+      <form action="/algorithm/{{algorithm.id}}/edit" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Edit">
+      </form>
+      <hr/>
+    {% endif %}
+
+    {% if request.session.admin_mode %}
+      Admin only:
+      <form action="/algorithm/{{algorithm.id}}/destroy" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete Algorithm And All Solutions">
+      </form>
+      <hr/>
+    {% endif %}
+
+    <h1>{{algorithm.name}}</h1>
+    <h4>Problem Statement</h4>
+    <p>{{algorithm.statement}}</p>
+    <h4>Example</h4>
+    <p>{{algorithm.example}}</p>
+    <h4>Tags</h4>
+    <ul>
+      {% for algorithm_tag in algorithm_tags %}
+        <li>{{algorithm_tag.tag}}</li>
+      {% endfor %}
+    </ul>
+    <!-- <textarea rows="8" cols="80">Scratch area</textarea> -->
+    <hr/>
+
+    <h1>Solution</h1>
+
+
+    {% if not request.session.show_solution %}
+      <form action="/algorithm/{{algorithm.id}}/show" method="post">
+        {% csrf_token %}
+        <input type="submit" name="show_solution" value="Show Solution">
+      </form>
+
+    {% else %}
+      <form action="/algorithm/{{algorithm.id}}/hide" method="post">
+        {% csrf_token %}
+        <input type="submit" name="hide_solution" value="Hide Solution">
+      </form>
+
+
+      {% for solution in solutions %}
+
+        <h4>Language</h4><p>{{solution.language}}</p>
+        <h4>Solution</h4><p><pre class='left'>{{solution.solution}}</pre></p>
+        {% if request.session.admin_mode %}
+          <hr/>
+          Admin only:
+          <form action="/solution/{{solution.id}}/destroy" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Delete This Solution">
+          </form>
+          <hr/>
+        {% endif %}
+      {% endfor %}
+
+      <br/>
+      {% if request.session.admin_mode %}
+      Admin only:
+        <h3>Add another solution</h3>
+        <form action="/algorithm/{{algorithm.id}}/add_solution" method="post">
+          {% csrf_token %}
+          <label for="language"><h4>Language</h4><select name="language">
+            {% for language in languages %}
+              <option value="{{language.language}}">{{language.language}}</option>
+            {% endfor %}
+          </select></label>
+          <br/>
+          <label for="solution"><h4>Solution</h4><textarea name="solution" rows="8" cols="80"></textarea></label>
+          <br/>
+
+          <input type="submit" value="Add Solution">
+        </form>
+      {% endif %}
+
+
+
+
+
+      <!-- <p>{{solution.solution}}</p> -->
+    {% endif %}
+
+
+
+
+
+
+  </body>
+</html>

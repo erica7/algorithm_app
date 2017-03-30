@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Delete</title>
+  </head>
+  <body>
+    <p>Are you sure you want to delete this?</p>
+
+    <form action="/algorithm/{{algorithm.id}}/destroy" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Yes, delete">
+    </form>
+
+    <form action="/algorithm/{{algorithm.id}}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="No, do not delete">
+    </form>
+
+  </body>
+</html>

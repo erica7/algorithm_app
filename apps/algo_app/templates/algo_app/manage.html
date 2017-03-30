@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Manage</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'algo_app/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+
+    <form action="/" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Home">
+    </form>
+    <br/>
+
+    {% if request.session.admin_mode %}
+
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <hr/>
+
+      <h2>New Tag</h2>
+      <form action="/tag/create" method="post">
+        {% csrf_token %}
+        <label for="tag"><input type="text" name="tag"></label>
+        <input type="submit" value="Add">
+      </form>
+
+      <table>
+        <thead>
+          <th>Tag</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </thead>
+        <tbody>
+          {% for tag in tags %}
+            <tr>
+              <td>{{tag.tag}}</td>
+              <td><form action="/tag/{{tag.id}}/edit" method="post">
+                {% csrf_token %}
+                <input type="submit" name="{{tag.id}}" value="Edit">
+              </form></td>
+              <td><form action="/tag/{{tag.id}}/destroy" method="post">
+                {% csrf_token %}
+                <input type="submit" name="{{tag.id}}" value="Delete">
+              </form></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <hr/>
+      <h2>New Language</h2>
+      <form action="/language/create" method="post">
+        {% csrf_token %}
+        <label for="language"><input type="text" name="language"></label>
+        <input type="submit" value="Add">
+      </form>
+
+      <table>
+        <thead>
+          <th>Language</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </thead>
+        <tbody>
+          {% for language in languages %}
+            <tr>
+              <td>{{language.language}}</td>
+              <td><form action="/language/{{language.id}}/edit" method="post">
+                {% csrf_token %}
+                <input type="submit" name="{{language.id}}" value="Edit">
+              </form></td>
+              <td><form action="/language/{{language.id}}/destroy" method="post">
+                {% csrf_token %}
+                <input type="submit" name="{{language.id}}" value="Delete">
+              </form></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <hr/>
+      <h2>New Algorithm</h2>
+      <form action="/algorithm/create" method="post">
+        {% csrf_token %}
+        <label for="name"><h4>Name</h4><input type="text" name="name"></label>
+        <br/>
+
+        <label for="statement"><h4>Problem statement</h4><textarea name="statement" rows="8" cols="80"></textarea></label>
+        <br/>
+
+        <label for="example"><h4>Example</h4><textarea name="example" rows="2" cols="80"></textarea></label>
+        <br/>
+
+        <label for="tags"><h4>Tags</h4>
+          {% for tag in tags %}
+            <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
+            <br/>
+          {% endfor %}
+        </label>
+        <br/>
+
+        <input type="submit" name="algo_only" value="Add Algorithm Only">
+
+        <br/>
+        <label for="solution"><h4>Solution</h4><textarea name="solution" rows="8" cols="80"></textarea></label>
+        <br/>
+
+        <label for="language"><h4>Language</h4><select name="language">
+          {% for language in languages %}
+            <option value="{{language.language}}">{{language.language}}</option>
+          {% endfor %}
+        </select></label>
+        <br/>
+
+        <br/>
+        <input type="submit" name="algo_and_solution" value="Add Algorithm And Solution">
+
+      </form>
+
+      <br/>
+      <hr/>
+      <h2>Algorithms</h2>
+      <table>
+        <!-- <thead>
+          <th>Algorithm</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </thead> -->
+        <tbody>
+          {% for algorithm in algorithms %}
+            <tr>
+              <td><form action="/algorithm/{{algorithm.id}}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="{{algorithm.name}}">
+              </form></td>
+              <td><form action="/algorithm/{{algorithm.id}}/edit" method="post">
+                {% csrf_token %}
+                <input type="submit" name="{{algorithm.id}}" value="Edit">
+              </form></td>
+              <td><form action="/algorithm/{{algorithm.id}}/destroy" method="post">
+                {% csrf_token %}
+                <input type="submit" name="{{algorithm.id}}" value="Delete">
+              </form></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+
+      Administrator access only.
+
+    {% endif %}
+
+  </body>
+</html>

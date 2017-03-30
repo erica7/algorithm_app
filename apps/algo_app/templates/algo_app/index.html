@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Algorithms</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'algo_app/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+
+    <h1>ALGORITHMS</h1>
+    <hr/>
+
+    {% if request.session.admin_mode %}
+      Admin only:
+      <form action="/manage" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Manage">
+      </form>
+      <hr/>
+    {% endif %}
+
+    <h2>Search</h2>
+
+    <form action="/algorithm/search" method="post">
+      {% csrf_token %}
+      <label for="search_name"><h3>Name</h3> <input type="text" name="search_name"></label>
+
+      <h3>Tags</h3>
+      {% for tag in tags %}
+        <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
+        <br/>
+      {% endfor %}
+
+      <h3>Language</h3>
+      {% for language in languages %}
+        <label for="{{language.language}}"><input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}</label>
+        <br/>
+      {% endfor %}
+
+      <br/>
+      <input type="submit" value="Search">
+    </form>
+
+    <hr/>
+
+    <h2>Random</h2>
+
+    <form action="/algorithm/random" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Give me a random algorithm!">
+    </form>
+
+    <hr/>
+
+    <h2>List</h2>
+
+    <table>
+      <!-- <thead>
+        <th>Name</th>
+      </thead> -->
+      <tbody>
+        {% for algorithm in algorithms %}
+          <tr>
+            <td>
+
+              <form action="/algorithm/{{algorithm.id}}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="{{algorithm.name}}">
+              </form>
+
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <hr/>
+
+    {% if not request.session.admin_mode %}
+      <h4>admin</h4>
+      <form action="/admin/login" method="post">
+        {% csrf_token %}
+        <input type="password" name="admin_password">
+        <input type="submit" value="log in">
+      </form>
+    {% else %}
+      <h4>admin</h4>
+      <form action="/admin/logout" method="post">
+        {% csrf_token %}
+        <input type="submit" value="log out">
+      </form>
+    {% endif %}
+  </body>
+</html>
