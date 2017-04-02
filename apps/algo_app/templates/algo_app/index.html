@@ -2,11 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Algorithms</title>
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'algo_app/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}"media="screen" title="no title"  charset="utf-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body class='container-fluid'>
 
     <h1>ALGORITHMS</h1>
     <hr/>
@@ -15,7 +23,7 @@
       Admin only:
       <form action="/manage" method="post">
         {% csrf_token %}
-        <input type="submit" value="Manage">
+        <input class="btn" type="submit" value="Manage">
       </form>
       <hr/>
     {% endif %}
@@ -28,18 +36,22 @@
 
       <h3>Tags</h3>
       {% for tag in tags %}
-        <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
-        <br/>
+        <div class="checkbox checkbox-default">
+          <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
+          <br/>
+        </div>
       {% endfor %}
 
       <h3>Language</h3>
       {% for language in languages %}
-        <label for="{{language.language}}"><input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}</label>
-        <br/>
+        <div class="checkbox checkbox-default">
+          <label for="{{language.language}}"><input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}</label>
+          <br/>
+        </div>
       {% endfor %}
 
       <br/>
-      <input type="submit" value="Search">
+      <input class="btn" type="submit" value="Search">
     </form>
 
     <hr/>
@@ -48,14 +60,14 @@
 
     <form action="/algorithm/random" method="post">
       {% csrf_token %}
-      <input type="submit" value="Give me a random algorithm!">
+      <input class="btn" type="submit" value="Give me a random algorithm!">
     </form>
 
     <hr/>
 
     <h2>List</h2>
 
-    <table>
+    <table class="table table-sm table-inverse">
       <!-- <thead>
         <th>Name</th>
       </thead> -->
@@ -66,7 +78,7 @@
 
               <form action="/algorithm/{{algorithm.id}}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="{{algorithm.name}}">
+                <input class="btn btn-block" type="submit" value="{{algorithm.name}}">
               </form>
 
             </td>
@@ -82,14 +94,17 @@
       <form action="/admin/login" method="post">
         {% csrf_token %}
         <input type="password" name="admin_password">
-        <input type="submit" value="log in">
+        <input class="btn" type="submit" value="log in">
       </form>
     {% else %}
       <h4>admin</h4>
       <form action="/admin/logout" method="post">
         {% csrf_token %}
-        <input type="submit" value="log out">
+        <input class="btn" type="submit" value="log out">
       </form>
     {% endif %}
+
+    <br/>
+
   </body>
 </html>

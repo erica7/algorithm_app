@@ -10,3 +10,5 @@ To Do
   - fix routes: POST->redirect, not-POST->render
   - styling
   - deploy
+  - improve admin creation
+  - jquery to show solutions

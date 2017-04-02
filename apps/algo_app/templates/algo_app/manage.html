@@ -2,15 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Manage</title>
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'algo_app/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}"media="screen" title="no title"  charset="utf-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body class='container-fluid'>
+
+    <br/>
 
     <form action="/" method="post">
       {% csrf_token %}
-      <input type="submit" value="Home">
+      <input class="btn" type="submit" value="Home">
     </form>
     <br/>
 
@@ -30,10 +39,10 @@
       <form action="/tag/create" method="post">
         {% csrf_token %}
         <label for="tag"><input type="text" name="tag"></label>
-        <input type="submit" value="Add">
+        <input class="btn" type="submit" value="Add">
       </form>
 
-      <table>
+      <table class="table">
         <thead>
           <th>Tag</th>
           <th>Edit</th>
@@ -45,11 +54,11 @@
               <td>{{tag.tag}}</td>
               <td><form action="/tag/{{tag.id}}/edit" method="post">
                 {% csrf_token %}
-                <input type="submit" name="{{tag.id}}" value="Edit">
+                <input class="btn" type="submit" name="{{tag.id}}" value="Edit">
               </form></td>
               <td><form action="/tag/{{tag.id}}/destroy" method="post">
                 {% csrf_token %}
-                <input type="submit" name="{{tag.id}}" value="Delete">
+                <input class="btn" type="submit" name="{{tag.id}}" value="Delete">
               </form></td>
             </tr>
           {% endfor %}
@@ -61,10 +70,10 @@
       <form action="/language/create" method="post">
         {% csrf_token %}
         <label for="language"><input type="text" name="language"></label>
-        <input type="submit" value="Add">
+        <input class="btn" type="submit" value="Add">
       </form>
 
-      <table>
+      <table class="table">
         <thead>
           <th>Language</th>
           <th>Edit</th>
@@ -76,11 +85,11 @@
               <td>{{language.language}}</td>
               <td><form action="/language/{{language.id}}/edit" method="post">
                 {% csrf_token %}
-                <input type="submit" name="{{language.id}}" value="Edit">
+                <input class="btn" type="submit" name="{{language.id}}" value="Edit">
               </form></td>
               <td><form action="/language/{{language.id}}/destroy" method="post">
                 {% csrf_token %}
-                <input type="submit" name="{{language.id}}" value="Delete">
+                <input class="btn" type="submit" name="{{language.id}}" value="Delete">
               </form></td>
             </tr>
           {% endfor %}
@@ -102,13 +111,15 @@
 
         <label for="tags"><h4>Tags</h4>
           {% for tag in tags %}
-            <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
-            <br/>
+            <div class="checkbox checkbox-default">
+              <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
+              <br/>
+            </div>
           {% endfor %}
         </label>
         <br/>
 
-        <input type="submit" name="algo_only" value="Add Algorithm Only">
+        <input class="btn" type="submit" name="algo_only" value="Add Algorithm Only">
 
         <br/>
         <label for="solution"><h4>Solution</h4><textarea name="solution" rows="8" cols="80"></textarea></label>
@@ -122,14 +133,14 @@
         <br/>
 
         <br/>
-        <input type="submit" name="algo_and_solution" value="Add Algorithm And Solution">
+        <input class="btn" type="submit" name="algo_and_solution" value="Add Algorithm And Solution">
 
       </form>
 
       <br/>
       <hr/>
       <h2>Algorithms</h2>
-      <table>
+      <table class="table">
         <!-- <thead>
           <th>Algorithm</th>
           <th>Edit</th>
@@ -140,15 +151,15 @@
             <tr>
               <td><form action="/algorithm/{{algorithm.id}}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="{{algorithm.name}}">
+                <input class="btn" type="submit" value="{{algorithm.name}}">
               </form></td>
               <td><form action="/algorithm/{{algorithm.id}}/edit" method="post">
                 {% csrf_token %}
-                <input type="submit" name="{{algorithm.id}}" value="Edit">
+                <input class="btn" type="submit" name="{{algorithm.id}}" value="Edit">
               </form></td>
               <td><form action="/algorithm/{{algorithm.id}}/destroy" method="post">
                 {% csrf_token %}
-                <input type="submit" name="{{algorithm.id}}" value="Delete">
+                <input class="btn" type="submit" name="{{algorithm.id}}" value="Delete">
               </form></td>
             </tr>
           {% endfor %}
@@ -160,6 +171,8 @@
       Administrator access only.
 
     {% endif %}
+
+    <br/>
 
   </body>
 </html>
