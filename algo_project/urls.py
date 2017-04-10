@@ -14,9 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-# from django.contrib import admin
+from django.contrib import admin
+
+from apps.algo_app.models import Algorithm, Tag, Language, Solution #, User
+class AlgorithmAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Algorithm, AlgorithmAdmin)
+class TagAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Tag, TagAdmin)
+class LanguageAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Language, LanguageAdmin)
+class SolutionAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Solution, SolutionAdmin)
+# class UserAdmin(admin.ModelAdmin):
+#     pass
+# admin.site.register(User, UserAdmin)
 
 urlpatterns = [
-    # url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^', include('apps.algo_app.urls')),
 ]

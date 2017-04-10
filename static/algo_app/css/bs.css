@@ -1,0 +1,55 @@
+* {
+  font-size: 20px;
+}
+
+body {
+  background-color: #f6f6f6 !important ;
+  max-width: 500px;
+  border: solid;
+}
+
+/*
+#003e6d dark blue
+#046c9f	medium blue
+#dde4ed medium gray
+#e3ebf2	light gray
+#f6f6f6 off white
+*/
+
+.btn {
+  color: #f6f6f6;
+  background-color: #046c9f;
+  padding: 22px;
+  font-size: 1em !important;
+}
+
+.btn:hover {
+  color: #f6f6f6 !important;
+  background-color: #003e6d;
+}
+
+.btn:focus, .btn:active {
+  outline: none !important;
+}
+
+
+textarea {
+  padding:5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: inherit;
+  width: 90%;
+}
+
+.checkbox {
+  /*background-color: red ;
+  background: red ;
+  color: red ;
+  height: 20px;
+  width: 20px;
+  padding: 10px ;*/
+}
+
+.table tr, .table td {
+  border: none;
+}
