@@ -8,7 +8,7 @@
     <!-- show all algorithm, tags, and solutions -->
     <!-- each solution has buttons to remove or to update -->
     <!-- button to add solution -->
-    <form action="/algorithm/{{algorithm.id}}/edit" method="post">
+    <form action="/algorithms/{{algorithm.id}}/edit" method="post">
       {% csrf_token %}
       <input type="text" name="name" value="{{algorithm.name}}">
     </form>

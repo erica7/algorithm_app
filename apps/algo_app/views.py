@@ -35,19 +35,19 @@ def search(request):
     context = {
         'algorithms': algorithms,
     }
-    print 'rquest session query is ', request.session['query']
+    # print 'request session query is ', request.session['query']
     return render(request, 'algo_app/results.html', context)
     # return redirect('/algorithm/results')
 
-def results(request):
-    # algorithms = Algorithm.objects.get_all()
-    algorithms = request.session['query']
-    print 'algorithms is ', algorithms
-    context = {
-        'algorithms': algorithms,
-    }
-    print 'context is ', context
-    return render(request, 'algo_app/results.html', context)
+# def results(request):
+#     # algorithms = Algorithm.objects.get_all()
+#     algorithms = request.session['query']
+#     print 'algorithms is ', algorithms
+#     context = {
+#         'algorithms': algorithms,
+#     }
+#     print 'context is ', context
+#     return render(request, 'algo_app/results.html', context)
 
 def random(request):
     # randomly generate id (but ID's won't necessarily be continuous...)

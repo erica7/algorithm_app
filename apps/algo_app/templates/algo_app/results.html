@@ -7,56 +7,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}"media="screen" title="no title"  charset="utf-8">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}" media="screen" title="no title" charset="utf-8">
   </head>
   <body class='container-fluid'>
-
-    <br/>
 
     <form action="/" method="post">
       {% csrf_token %}
       <input class="btn" type="submit" value="Home">
     </form>
-    <!-- <br/> -->
+
     <hr/>
 
-    <h2>Search Results</h2>
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="heading">Search Results</h2>
+      </div>
+      <div class="col-sm-8">
+        {% if algorithms %}
+          {% for algorithm in algorithms %}
+            <form action="/algorithms/{{algorithm.id}}" method="post">
+              {% csrf_token %}
+              <input class="btn" type="submit" value="{{algorithm.name}}">
+            </form>
+          {% endfor %}
+        {% else %}
+          <p>No algorithms match the search criteria.</p>
+        {% endif %}
 
-    {% if algorithms %}
+      </div>
+    </div>
 
-
-
-    <table class="table">
-      <!-- <thead>
-        <th>Name</th>
-      </thead> -->
-      <tbody>
-        {% for algorithm in algorithms %}
-          <tr>
-            <td>
-
-              <form action="/algorithm/{{algorithm.id}}" method="post">
-                {% csrf_token %}
-                <input class="btn" type="submit" value="{{algorithm.name}}">
-              </form>
-
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    {% else %}
-
-      No algorithms match the search criteria.
-
-    {% endif %}
 
     <br/>
 

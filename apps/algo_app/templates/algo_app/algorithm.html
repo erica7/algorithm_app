@@ -7,28 +7,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}"media="screen" title="no title"  charset="utf-8">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
     <!-- Latest compiled and minified JavaScript -->
     <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}" media="screen" title="no title" charset="utf-8">
   </head>
   <body class='container-fluid'>
-
-    <br/>
 
     <form action="/" method="post">
       {% csrf_token %}
       <input class="btn" type="submit" value="Home">
     </form>
-    <!-- <br/> -->
+
     <hr/>
 
     {% if request.session.admin_mode %}
       Admin only:
-      <form action="/algorithm/{{algorithm.id}}/edit" method="post">
+      <form action="/algorithms/{{algorithm.id}}/edit" method="post">
         {% csrf_token %}
         <input class="btn" type="submit" value="Edit">
       </form>
@@ -37,51 +35,98 @@
 
     {% if request.session.admin_mode %}
       Admin only:
-      <form action="/algorithm/{{algorithm.id}}/destroy" method="post">
+      <form action="/algorithms/{{algorithm.id}}/destroy" method="post">
         {% csrf_token %}
         <input class="btn" type="submit" value="Delete Algorithm And All Solutions">
       </form>
       <hr/>
     {% endif %}
 
-    <h1>{{algorithm.name}}</h1>
-    <h4>Problem Statement</h4>
-    <p>{{algorithm.statement}}</p>
-    <h4>Example</h4>
-    <p>{{algorithm.example}}</p>
-    <h4>Tags</h4>
-    <ul>
-      {% for algorithm_tag in algorithm_tags %}
-        <li>{{algorithm_tag.tag}}</li>
-      {% endfor %}
-    </ul>
-    <!-- <textarea rows="8" cols="80">Scratch area</textarea> -->
+
+    <h1 class="text-center">{{algorithm.name}}</h1>
+
+
+    <div class="row">
+      <div class="col-sm-4">
+        <h3 class="heading">Problem Statement</h3>
+      </div>
+      <div class="col-sm-8">
+        <p>{{algorithm.statement}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <h3 class="heading">Example</h3>
+      </div>
+      <div class="col-sm-8">
+        <p>{{algorithm.example}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <h3 class="heading">Tags</h3>
+      </div>
+      <div class="col-sm-8">
+        <ul>
+          {% for algorithm_tag in algorithm_tags %}
+            <li>{{algorithm_tag.tag}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
     <hr/>
 
-    <h1>Solution</h1>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="heading">Solution</h2>
+      </div>
+      <div class="col-sm-8">
+        {% if not request.session.show_solution %}
+          <form action="/algorithms/{{algorithm.id}}/show" method="post">
+            {% csrf_token %}
+            <input class="btn" type="submit" name="show_solution" value="Show Solution">
+          </form>
+
+        {% else %}
+          <form action="/algorithms/{{algorithm.id}}/hide" method="post">
+            {% csrf_token %}
+            <input class="btn" type="submit" name="hide_solution" value="Hide Solution">
+          </form>
+        {% endif %}
+      </div>
+    </div>
 
 
-    {% if not request.session.show_solution %}
-      <form action="/algorithm/{{algorithm.id}}/show" method="post">
-        {% csrf_token %}
-        <input class="btn" type="submit" name="show_solution" value="Show Solution">
-      </form>
 
-    {% else %}
-      <form action="/algorithm/{{algorithm.id}}/hide" method="post">
-        {% csrf_token %}
-        <input class="btn" type="submit" name="hide_solution" value="Hide Solution">
-      </form>
-
-
+    {% if request.session.show_solution %}
       {% for solution in solutions %}
 
-        <h4>Language</h4><p>{{solution.language}}</p>
-        <h4>Solution</h4><p><pre class='left'>{{solution.solution}}</pre></p>
+        <div class="row">
+          <div class="col-sm-4">
+            <h3 class="heading">Language</h3>
+          </div>
+          <div class="col-sm-8">
+            <p>{{solution.language}}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <h3 class="heading">Solution</h3>
+          </div>
+          <div class="col-sm-8">
+            <p><pre class='solution'>{{solution.solution}}</pre></p>
+          </div>
+        </div>
+
         {% if request.session.admin_mode %}
           <hr/>
           Admin only:
-          <form action="/solution/{{solution.id}}/destroy" method="post">
+          <form action="/solutions/{{solution.id}}/destroy" method="post">
             {% csrf_token %}
             <input class="btn" type="submit" value="Delete This Solution">
           </form>
@@ -90,10 +135,11 @@
       {% endfor %}
 
       <br/>
+
       {% if request.session.admin_mode %}
       Admin only:
         <h3>Add another solution</h3>
-        <form action="/algorithm/{{algorithm.id}}/add_solution" method="post">
+        <form action="/algorithms/{{algorithm.id}}/add_solution" method="post">
           {% csrf_token %}
           <label for="language"><h4>Language</h4><select name="language">
             {% for language in languages %}

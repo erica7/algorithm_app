@@ -8,18 +8,20 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
     {% load staticfiles %}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}"media="screen" title="no title"  charset="utf-8">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}" media="screen" title="no title" charset="utf-8">
   </head>
   <body class='container-fluid'>
 
-    <h1>ALGORITHMS</h1>
-    <hr/>
+    <h1 class="text-center">ALGORITHMS</h1>
+
+    <hr>
 
     {% if request.session.admin_mode %}
       Admin only:
@@ -30,83 +32,90 @@
       <hr/>
     {% endif %}
 
-    <h2>Search</h2>
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="heading">Search</h2>
+      </div>
+      <div class="col-sm-8">
+        <form class="form-horizontal" action="/algorithms/search" method="post">
+          {% csrf_token %}
 
-    <form action="/algorithm/search" method="post">
-      {% csrf_token %}
-      <label for="search_name"><h3>Name</h3> <input type="text" name="search_name"></label>
+          <div class="form-group">
+            <label for="search_name" class="col-sm-2 control-label"><h3>Name</h3></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="search_name">
+            </div>
+          </div>
 
-      <h3>Tags</h3>
-      {% for tag in tags %}
-        <div class="checkbox checkbox-default">
-          <label for="{{tag.tag}}"><input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}</label>
-          <br/>
-        </div>
-      {% endfor %}
+          <div class="form-group">
+            <label class="col-sm-2 control-label"><h3>Tags</h3></label>
+            <div class="col-sm-10">
+              {% for tag in tags %}
+                <div class="checkbox">
+                  <label for="{{tag.tag}}">
+                    <input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
 
-      <h3>Language</h3>
-      {% for language in languages %}
-        <div class="checkbox checkbox-default">
-          <label for="{{language.language}}"><input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}</label>
-          <br/>
-        </div>
-      {% endfor %}
+          <div class="form-group">
+            <label class="col-sm-2 control-label"><h4>Language</h4></label>
+            <div class="col-sm-10">
+              {% for language in languages %}
+                <div class="checkbox">
+                  <label for="{{language.language}}">
+                    <input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}
+                  </label>
+                  <br/>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
 
-      <br/>
-      <input class="btn" type="submit" value="Search">
-    </form>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <!-- <input class="btn" type="submit" value="Search"> -->
+              <button type="submit" class="btn">Search</button>
+            </div>
+          </div>
 
-    <hr/>
+        </form>
+      </div>
+    </div>
 
-    <h2>Random</h2>
+    <hr>
 
-    <form action="/algorithm/random" method="post">
-      {% csrf_token %}
-      <input class="btn" type="submit" value="Give me a random algorithm!">
-    </form>
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="heading">Random</h2>
+      </div>
+      <div class="col-sm-8">
+        <form action="/algorithms/random" method="post">
+          {% csrf_token %}
+          <input class="btn" type="submit" value="Give me a random algorithm!">
+        </form>
+      </div>
+    </div>
 
-    <hr/>
+    <hr>
 
-    <h2>List</h2>
-
-    <table class="table table-sm table-inverse">
-      <!-- <thead>
-        <th>Name</th>
-      </thead> -->
-      <tbody>
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="heading">List</h2>
+      </div>
+      <div class="col-sm-8">
         {% for algorithm in algorithms %}
-          <tr>
-            <td>
-
-              <form action="/algorithm/{{algorithm.id}}" method="post">
-                {% csrf_token %}
-                <input class="btn btn-block" type="submit" value="{{algorithm.name}}">
-              </form>
-
-            </td>
-          </tr>
+          <form action="/algorithms/{{algorithm.id}}" method="post">
+            {% csrf_token %}
+            <input class="btn" type="submit" value="{{algorithm.name}}">
+          </form>
         {% endfor %}
-      </tbody>
-    </table>
+      </div>
+    </div>
 
-    <hr/>
 
-    {% if not request.session.admin_mode %}
-      <h4>admin</h4>
-      <form action="/admin/login" method="post">
-        {% csrf_token %}
-        <input type="password" name="admin_password">
-        <input class="btn" type="submit" value="log in">
-      </form>
-    {% else %}
-      <h4>admin</h4>
-      <form action="/admin/logout" method="post">
-        {% csrf_token %}
-        <input class="btn" type="submit" value="log out">
-      </form>
-    {% endif %}
-
-    <br/>
 
   </body>
 </html>

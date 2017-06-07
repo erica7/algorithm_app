@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=da&v1*w21-(+e=ps-rxyv-dh@$h_58n0v05fu(jcmfnmh@z82'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-PRODUCTION = (os.uname()[1] != 'razor')
-DEBUG = not PRODUCTION
+DEBUG = True
+# PRODUCTION = (os.uname()[1] != 'razor')
+# DEBUG = not PRODUCTION
 
 # NOTE: nginx validates the Host: before even handing off to Django so we wildcard here
 ALLOWED_HOSTS = ['*']

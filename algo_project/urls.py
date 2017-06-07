@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 from apps.algo_app.models import Algorithm, Tag, Language, Solution #, User
 class AlgorithmAdmin(admin.ModelAdmin):
@@ -36,4 +38,4 @@ admin.site.register(Solution, SolutionAdmin)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('apps.algo_app.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

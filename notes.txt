@@ -12,3 +12,4 @@ To Do
   - deploy
   - improve admin creation
   - jquery to show solutions
+  - add '*.sqlite3' to .gitignore

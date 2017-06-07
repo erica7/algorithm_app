@@ -1,11 +1,15 @@
 * {
-  font-size: 20px;
+  font-size: 14px;
+}
+
+h1{
+  font-size: 0.9em;
 }
 
 body {
-  background-color: #f6f6f6 !important ;
-  max-width: 500px;
-  border: solid;
+  background-color: #eee;
+  /*max-width: 500px;*/
+  /*border: solid;*/
 }
 
 /*
@@ -19,22 +23,23 @@ body {
 .btn {
   color: #f6f6f6;
   background-color: #046c9f;
-  padding: 22px;
-  font-size: 1em !important;
+  padding: 0.2em 0.5em;
+  font-size: 1em;
+  margin-bottom: 0.3em;
 }
 
 .btn:hover {
-  color: #f6f6f6 !important;
+  color: #f6f6f6;
   background-color: #003e6d;
 }
 
 .btn:focus, .btn:active {
-  outline: none !important;
+  outline: none;
 }
 
 
 textarea {
-  padding:5px 10px;
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   font-size: inherit;
@@ -50,6 +55,6 @@ textarea {
   padding: 10px ;*/
 }
 
-.table tr, .table td {
+/*.table tr, .table td {
   border: none;
-}
+}*/

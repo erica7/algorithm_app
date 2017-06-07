@@ -20,20 +20,20 @@ urlpatterns = [
     # url(r'^language/(?P<id>\d+)/destroy$', views.destroy_language), # POST method to destroy/remove from db
 
     # url(r'^algorithm/create$', views.create_algorithm), # POST method to create in db
-    url(r'^algorithm/(?P<id>\d+)$', views.show, name='algorithm'),
-    url(r'^algorithm/(?P<id>\d+)/show$', views.show_solution),
-    url(r'^algorithm/(?P<id>\d+)/hide$', views.hide_solution),
+    url(r'^algorithms/(?P<id>\d+)$', views.show, name='algorithm'),
+    url(r'^algorithms/(?P<id>\d+)/show$', views.show_solution),
+    url(r'^algorithms/(?P<id>\d+)/hide$', views.hide_solution),
     # url(r'^algorithm/(?P<id>\d+)/edit$', views.edit), # form to edit
     # url(r'^algorithm/(?P<id>\d+)/update$', views.update), # POST method to update db
     # url(r'^algorithm/(?P<id>\d+)/delete$', views.delete), # form to confirm delete
     # url(r'^algorithm/(?P<id>\d+)/destroy$', views.destroy), # POST method to destroy/remove from db
     # url(r'^algorithm/(?P<id>\d+)/add_solution$', views.add_solution), # POST method to destroy/remove from db
-    url(r'^algorithm/search$', views.search), # POST method to search; redirect to /algorithm/<id>
+    url(r'^algorithms/search$', views.search), # POST method to search; redirect to /algorithm/<id>
     # url(r'^algorithm/results$', views.results), # render results.html
-    url(r'^algorithm/random$', views.random), # POST method to get random; redirect to /algorithm/<id?
+    url(r'^algorithms/random$', views.random), # POST method to get random; redirect to /algorithm/<id?
 
     # url(r'^solution/create$', views.add_solution), # POST method to create in db
-    url(r'^solution/(?P<id>\d+)$', views.show_solution),
+    url(r'^solutions/(?P<id>\d+)$', views.show_solution),
     # url(r'^solution/(?P<id>\d+)/edit$', views.edit_solution), # form to edit
     # url(r'^solution/(?P<id>\d+)/update$', views.update_solution), # POST method to update db
     # url(r'^solution/(?P<id>\d+)/delete$', views.delete_solution), # form to confirm delete
