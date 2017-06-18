@@ -24,6 +24,7 @@ SECRET_KEY = '=da&v1*w21-(+e=ps-rxyv-dh@$h_58n0v05fu(jcmfnmh@z82'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
+# DEBUG = False  # `runserver --insecure` to serve static files
 PRODUCTION = not os.uname()[1].startswith('razor')
 DEBUG = not PRODUCTION
 
