@@ -1,149 +1,94 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ericaX | Algorithms</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}" media="screen" title="no title" charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="{% static 'algo_app/images/favicon.ico' %}"/>
-  </head>
-  <body class='container-fluid'>
+{% extends "base.html" %}
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-to-collapse" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="https://ericaX.com">ericaX</a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-to-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="https://github.com/erica7/rails_bright_ideas" target="_blank" class="navbar-link">
-                <img src="{% static 'algo_app/images/GitHub-Mark-Light-120px-plus.png' %}" alt="GitHub" class="img-responsive small-logo inline-block side-margin">See my code!
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+{% block content %}
+  <div class="row">
+    <h1 class="text-center">ALGORITHMS</h1>
+  </div>
 
-    <div class="row">
-      <h1 class="text-center">ALGORITHMS</h1>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <h2 class="heading">Search</h2>
     </div>
 
-    <hr>
-
-    {% if request.session.admin_mode %}
-      Admin only:
-      <form action="/manage" method="post">
+    <div class="col-sm-8">
+      <form class="form-horizontal" action="/algorithms/search" method="post">
         {% csrf_token %}
-        <input class="btn" type="submit" value="Manage">
+
+        <div class="form-group">
+          <label for="search_name" class="col-sm-2 control-label"><h3>Name</h3></label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" name="search_name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><h3>Tags</h3></label>
+          <div class="col-sm-10">
+            {% for tag in tags %}
+              <div class="checkbox">
+                <label for="{{tag.tag}}">
+                  <input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label"><h4>Language</h4></label>
+          <div class="col-sm-10">
+            {% for language in languages %}
+              <div class="checkbox">
+                <label for="{{language.language}}">
+                  <input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}
+                </label>
+                <br/>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <!-- <input class="btn" type="submit" value="Search"> -->
+            <button type="submit" class="btn">Search</button>
+          </div>
+        </div>
+
       </form>
-      <hr/>
-    {% endif %}
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="col-sm-4">
-        <h2 class="heading">Search</h2>
-      </div>
+  <hr>
 
-      <div class="col-sm-8">
-        <form class="form-horizontal" action="/algorithms/search" method="post">
+  <div class="row">
+    <div class="col-sm-4">
+      <h2 class="heading">Random</h2>
+    </div>
+    <div class="col-sm-8">
+      <form action="/algorithms/random" method="post">
+        {% csrf_token %}
+        <input class="btn" type="submit" value="Give me a random algorithm!">
+      </form>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <h2 class="heading">List</h2>
+    </div>
+    <div class="col-sm-8">
+      {% for algorithm in algorithms %}
+        <form action="/algorithms/{{algorithm.id}}" method="post">
           {% csrf_token %}
-
-          <div class="form-group">
-            <label for="search_name" class="col-sm-2 control-label"><h3>Name</h3></label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" name="search_name">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label"><h3>Tags</h3></label>
-            <div class="col-sm-10">
-              {% for tag in tags %}
-                <div class="checkbox">
-                  <label for="{{tag.tag}}">
-                    <input type="checkbox" name="{{tag.tag}}" id="{{tag.tag}}">{{tag.tag}}
-                  </label>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label"><h4>Language</h4></label>
-            <div class="col-sm-10">
-              {% for language in languages %}
-                <div class="checkbox">
-                  <label for="{{language.language}}">
-                    <input type="checkbox" name="{{language.language}}" id="{{language.language}}">{{language.language}}
-                  </label>
-                  <br/>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <!-- <input class="btn" type="submit" value="Search"> -->
-              <button type="submit" class="btn">Search</button>
-            </div>
-          </div>
-
+          <input class="btn" type="submit" value="{{algorithm.name}}">
         </form>
-      </div>
+      {% endfor %}
     </div>
+  </div>
 
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-4">
-        <h2 class="heading">Random</h2>
-      </div>
-      <div class="col-sm-8">
-        <form action="/algorithms/random" method="post">
-          {% csrf_token %}
-          <input class="btn" type="submit" value="Give me a random algorithm!">
-        </form>
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-4">
-        <h2 class="heading">List</h2>
-      </div>
-      <div class="col-sm-8">
-        {% for algorithm in algorithms %}
-          <form action="/algorithms/{{algorithm.id}}" method="post">
-            {% csrf_token %}
-            <input class="btn" type="submit" value="{{algorithm.name}}">
-          </form>
-        {% endfor %}
-      </div>
-    </div>
-
-    <footer class="navbar navbar-inverse navbar-fixed-bottom">
-      <div class="container-fluid">
-        <p class="navbar-text navbar-right side-margin">Made with love, care, and craft beer by Erica</p>
-      </div>
-    </footer>
-
-  </body>
-</html>
+{% endblock %}

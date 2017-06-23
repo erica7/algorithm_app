@@ -23,6 +23,15 @@ nav, footer {
   font-weight: 100;
 }
 
+#editor, #solution {
+  width: 95%;
+  min-height: 210px;
+}
+
+#solutions_div {
+  display: none;  /* solution is hidden by default */
+}
+
 h1{
   font-size: 2em;
 }

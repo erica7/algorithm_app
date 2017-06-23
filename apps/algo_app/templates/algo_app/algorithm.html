@@ -1,185 +1,102 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ericaX | Algorithms</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'algo_app/css/bs.css' %}" media="screen" title="no title" charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="{% static 'algo_app/images/favicon.ico' %}"/>
-  </head>
-  <body class='container-fluid'>
+{% extends "base.html" %}
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-to-collapse" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="https://ericaX.com">ericaX</a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-to-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="https://github.com/erica7/rails_bright_ideas" target="_blank" class="navbar-link">
-                <img src="{% static 'algo_app/images/GitHub-Mark-Light-120px-plus.png' %}" alt="GitHub" class="img-responsive small-logo inline-block side-margin">See my code!
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+{% block content %}
+  <form action="/" method="post">
+    {% csrf_token %}
+    <input class="btn" type="submit" value="Home">
+  </form>
 
-    <form action="/" method="post">
-      {% csrf_token %}
-      <input class="btn" type="submit" value="Home">
-    </form>
+  <hr/>
 
-    <hr/>
+  <h1 class="text-center">{{algorithm.name}}</h1>
 
-    {% if request.session.admin_mode %}
-      Admin only:
-      <form action="/algorithms/{{algorithm.id}}/edit" method="post">
-        {% csrf_token %}
-        <input class="btn" type="submit" value="Edit">
-      </form>
-      <hr/>
-    {% endif %}
-
-    {% if request.session.admin_mode %}
-      Admin only:
-      <form action="/algorithms/{{algorithm.id}}/destroy" method="post">
-        {% csrf_token %}
-        <input class="btn" type="submit" value="Delete Algorithm And All Solutions">
-      </form>
-      <hr/>
-    {% endif %}
-
-
-    <h1 class="text-center">{{algorithm.name}}</h1>
-
-
-    <div class="row">
-      <div class="col-sm-2">
-        <h3 class="heading">Problem Statement</h3>
-      </div>
-      <div class="col-sm-10">
-        <p>{{algorithm.statement}}</p>
-      </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <h3 class="heading">Problem Statement</h3>
     </div>
-
-    <div class="row">
-      <div class="col-sm-2">
-        <h3 class="heading">Example</h3>
-      </div>
-      <div class="col-sm-10">
-        <p>{{algorithm.example}}</p>
-      </div>
+    <div class="col-sm-10">
+      <p>{{algorithm.statement}}</p>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="col-sm-2">
-        <h3 class="heading">Tags</h3>
-      </div>
-      <div class="col-sm-10">
-        <ul>
-          {% for algorithm_tag in algorithm_tags %}
-            <li>{{algorithm_tag.tag}}</li>
-          {% endfor %}
-        </ul>
-      </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <h3 class="heading">Example</h3>
     </div>
-
-    <hr/>
-
-
-    <div class="row">
-      <div class="col-sm-2">
-        <h2 class="heading">Solution</h2>
-      </div>
-      <div class="col-sm-10">
-        {% if not request.session.show_solution %}
-          <form action="/algorithms/{{algorithm.id}}/show" method="post">
-            {% csrf_token %}
-            <input class="btn" type="submit" name="show_solution" value="Show Solution">
-          </form>
-        {% else %}
-          <form action="/algorithms/{{algorithm.id}}/hide" method="post">
-            {% csrf_token %}
-            <input class="btn" type="submit" name="hide_solution" value="Hide Solution">
-          </form>
-        {% endif %}
-      </div>
+    <div class="col-sm-10">
+      <p>{{algorithm.example}}</p>
     </div>
+  </div>
 
-    {% if request.session.show_solution %}
-      {% for solution in solutions %}
+  <div class="row">
+    <div class="col-sm-2">
+      <h3 class="heading">Tags</h3>
+    </div>
+    <div class="col-sm-10">
+      <ul>
+        {% for algorithm_tag in algorithm_tags %}
+          <li>{{algorithm_tag.tag}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-        <div class="row">
-          <div class="col-sm-2">
-            <h3 class="heading">Language</h3>
-          </div>
-          <div class="col-sm-10">
-            <p>{{solution.language}}</p>
-          </div>
+  <hr/>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <h2 class="heading">Solution</h2>
+    </div>
+    <div class="col-sm-10">
+      <button type="button" class="btn" id="show_hide">Show / Hide</button>
+    </div>
+  </div>
+
+  <div id="solutions_div">
+    {% for solution in solutions %}
+      <div class="row">
+        <div class="col-sm-2">
+          <h3 class="heading">Language</h3>
         </div>
-
-        <div class="row">
-          <div class="col-sm-2">
-            <h3 class="heading">Solution</h3>
-          </div>
-          <div class="col-sm-10">
-            <p><pre class='solution'>{{solution.solution}}</pre></p>
-          </div>
+        <div class="col-sm-10">
+          <p>{{solution.language}}</p>
         </div>
-
-        {% if request.session.admin_mode %}
-          <hr/>
-          Admin only:
-          <form action="/solutions/{{solution.id}}/destroy" method="post">
-            {% csrf_token %}
-            <input class="btn" type="submit" value="Delete This Solution">
-          </form>
-          <hr/>
-        {% endif %}
-      {% endfor %}
-
-      {% if request.session.admin_mode %}
-      Admin only:
-        <h3>Add another solution</h3>
-        <form action="/algorithms/{{algorithm.id}}/add_solution" method="post">
-          {% csrf_token %}
-          <label for="language"><h4>Language</h4><select name="language">
-            {% for language in languages %}
-              <option value="{{language.language}}">{{language.language}}</option>
-            {% endfor %}
-          </select></label>
-          <br/>
-          <label for="solution"><h4>Solution</h4><textarea name="solution" rows="8" cols="80"></textarea></label>
-          <br/>
-
-          <input class="btn" type="submit" value="Add Solution">
-        </form>
-      {% endif %}
-      <!-- <p>{{solution.solution}}</p> -->
-    {% endif %}
-
-
-    <footer class="navbar navbar-inverse navbar-fixed-bottom">
-      <div class="container-fluid">
-        <p class="navbar-text navbar-right side-margin">Made with love, care, and craft beer by Erica</p>
       </div>
-    </footer>
+      <div class="row">
+        <div class="col-sm-2">
+          <h3 class="heading">Solution</h3>
+        </div>
+        <div class="col-sm-10">
+          <div id="solution">{{solution.solution}}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 
-  </body>
-</html>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <h2 class="heading">Try it!</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div id="editor">// your solution here...</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-2">
+      <button type="button" class="btn" id="testSubmit">Test Submit</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-2">
+      <div id="testOutput">test output . . .</div>
+    </div>
+  </div>
+
+{% endblock %}
