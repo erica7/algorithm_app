@@ -6,16 +6,17 @@
 #f6f6f6 off white
 */
 
-* {
-  /*font-size: 14px;*/
-}
 
 body {
   background-color: #363636;
   color: #cecdce;
-  /*padding-top: 2em;*/
   padding-top: 70px;
   padding-bottom: 50px;
+}
+
+.bodyDay {
+  background-color: #cecdce;
+  color: #363636;
 }
 
 nav, footer {
@@ -25,7 +26,8 @@ nav, footer {
 
 #editor, #solution {
   width: 95%;
-  min-height: 210px;
+  /*min-height: 210px;*/
+  height: 100px;
 }
 
 #solutions_div {
@@ -45,7 +47,7 @@ h4 {
   font-size: 1.2em;
 }
 h1, h2, h3, h4 {
-  color: #d3ea00;
+  /*color: #d3ea00;*/
   margin-top: 0;
 }
 
@@ -79,7 +81,8 @@ a:hover {
 
 .btn {
   color: #363636;
-  background-color: #d3ea00;
+  /*background-color: #d3ea00;*/
+  background-color: #D24F28;
   padding: 0.2em 0.5em;
   font-size: 1em;
   margin-bottom: 0.3em;
@@ -88,7 +91,8 @@ a:hover {
 }
 
 .btn:hover {
-  background-color: #edfe4f;
+  /*background-color: #edfe4f;*/
+  background-color: #FF9070;
 }
 
 .btn:focus, .btn:active {

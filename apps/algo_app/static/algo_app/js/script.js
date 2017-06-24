@@ -1,13 +1,48 @@
 $(document).ready(function(){
   console.log('ready!');
 
-  var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/mono_industrial");
-  editor.getSession().setMode("ace/mode/javascript");
+  var night = true;
 
-  var solution = ace.edit("solution");
-  solution.setTheme("ace/theme/mono_industrial");
-  solution.getSession().setMode("ace/mode/javascript");
+  var nightTheme = "ace/theme/kr_theme";
+  var dayTheme = "ace/theme/tomorrow"
+
+  if ($("#editor").length){
+    var editor = ace.edit("editor");
+    editor.setTheme(nightTheme);
+    editor.getSession().setMode("ace/mode/javascript");
+    editor.setOptions({
+        fontSize: "12px"
+    });
+    editor.container.style.lineHeight = 1.7
+
+    var solution = ace.edit("solution");
+    solution.setTheme(nightTheme);
+    solution.getSession().setMode("ace/mode/javascript");
+    solution.setOptions({
+        fontSize: "12px"
+    });
+    solution.container.style.lineHeight = 1.7
+  }
+
+  $("#dayNight").click(function(){
+    if (night) {
+      if ($("#editor").length){
+        editor.setTheme(dayTheme);
+        solution.setTheme(dayTheme);
+      }
+      $("body").addClass("bodyDay");
+      night = false;
+      console.log(night);
+    } else {
+      if ($("#editor").length){
+        editor.setTheme(nightTheme);
+        solution.setTheme(nightTheme);
+      }
+      $("body").removeClass("bodyDay");
+      night = true;
+      console.log(night);
+    }
+  });
 
   $("#show_hide").click(function(){
     $("#solutions_div").toggle();
